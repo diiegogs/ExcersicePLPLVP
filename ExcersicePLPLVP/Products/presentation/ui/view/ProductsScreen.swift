@@ -111,11 +111,6 @@ struct ProductsScreen: View {
                                                 }
                                             }
                                         }
-                                    
-                                    if viewModel.loading {
-                                        ProgressView("Cargando...")
-                                            .padding()
-                                    }
                                 }
                             }
                             .padding(.top)
