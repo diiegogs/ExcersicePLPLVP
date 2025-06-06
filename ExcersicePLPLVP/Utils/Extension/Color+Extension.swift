@@ -2,7 +2,7 @@
 //  Color+Extension.swift
 //  ExcersicePLPLVP
 //
-//  Created by JDiego Garcia on 05/06/25.
+//  Created by Juan Diego Garcia Serrano on 05/06/25.
 //
 
 import SwiftUI

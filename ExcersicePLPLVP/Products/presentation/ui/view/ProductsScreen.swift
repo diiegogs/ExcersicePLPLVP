@@ -37,8 +37,8 @@ struct ProductsScreen: View {
                                 Text("Productos")
                                     .font(.system(size: 20.0,weight: .bold, design: .rounded))
                                     .foregroundStyle(Color.whiteLvp)
-                            }, viewRight: {
-                                Button { [weak viewModel] in
+                            }, viewRight: { [weak viewModel] in
+                                Button {
                                     viewModel?.orderProducts()
                                 } label: {
                                     ZStack {
@@ -65,6 +65,10 @@ struct ProductsScreen: View {
                                         .background(Color.whiteLvp)
                                         .cornerRadius(8.0)
                                         .frame(minWidth: geo.size.width / 2, alignment: .center)
+                                        // MARK: Change por event onChange and distribute content between action keyboard
+                                        .onSubmit {
+                                            viewModel.searchProducts()
+                                        }
                                 }
                             }
                         )
@@ -87,22 +91,36 @@ struct ProductsScreen: View {
                         ScrollView(showsIndicators: false) {
                             LazyVStack {
                                 ForEach(viewModel.filterProducts.indices, id: \.self) { element in
-                                   UCardView(
+                                    UCardView(
                                         nameImage: viewModel.filterProducts[element].lgImage,
                                         nameProduct: viewModel.filterProducts[element].productDisplayName,
                                         originalPrice: viewModel.filterProducts[element].listPrice,
                                         discountedPrice: viewModel.filterProducts[element].promoPrice,
                                         availableColors: viewModel.filterProducts[element].variantsColor?.compactMap({ $0.colorHex })
                                     )
+                                    
                                     Rectangle()
                                         .frame(maxWidth: .infinity, maxHeight: 0.9)
                                         .foregroundStyle(.gray.opacity(0.8))
+                                        .onAppear {
+                                            if element == viewModel.filterProducts.count - 1 && viewModel.reload && !viewModel.loading {
+                                                if viewModel.currentPage <= viewModel.contentPage {
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                        viewModel.callGetProductsService()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    
+                                    if viewModel.loading {
+                                        ProgressView("Cargando...")
+                                            .padding()
+                                    }
                                 }
                             }
                             .padding(.top)
                         }
                     }
-                    
                 }
                 .onAppear { [weak viewModel] in
                     viewModel?.callGetProductsService()

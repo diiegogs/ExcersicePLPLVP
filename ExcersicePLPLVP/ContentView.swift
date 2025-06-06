@@ -14,17 +14,17 @@ struct ContentView: View {
                 Color.purpleLvp
                 VStack {
                     ZStack {
-                        Color.white.opacity(0.002)
+                        Color.whiteLvp.opacity(0.002)
                         NavigationLink {
                             ProductsScreen()
                         } label: {
                             HStack {
                                 Text("Obtén productos")
                                     .font(.system(size: 20.0, weight: .bold, design: .rounded))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.whiteLvp)
                                 ZStack {
                                     Circle()
-                                        .foregroundStyle(.white)
+                                        .foregroundStyle(.whiteLvp)
                                         .frame(width: 40.0, height: 40.0, alignment: .center)
                                     
                                     Image(systemName: "arrow.right")
